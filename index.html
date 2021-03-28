@@ -81,7 +81,7 @@
             document.getElementById('hint-container').classList.add(rotate);
 
             const today = new Date();
-            const day = today.getUTCDate() + '.' + (today.getUTCMonth() + 1) + "." + today.getUTCFullYear();
+            const day = today.getDate() + '.' + (today.getMonth() + 1) + "." + today.getFullYear();
 
             const question = questions[location.hash.substring(1)] || questions[day] || questions['_default'];
 
