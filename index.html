@@ -1,1 +1,128 @@
+<!doctype html>
+<html lang="sk">
 
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style type="text/css">
+        #question p {
+            margin-bottom: 1em;
+        }
+    </style>
+    <script type="text/javascript">
+        function removeDiacritics(s) {
+            return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function kidsStringCompare(s1, s2) {
+            return removeDiacritics(s1).toLowerCase() === removeDiacritics(s2).toLowerCase();
+        }
+
+        document.addEventListener("DOMContentLoaded", (_) => {
+            const questions = {
+                "29.3.2021": {
+                    "q": '<p>Veľkonočný zajko &#128048; hľadá sčítané a dôvtipné deti.</p><p>Jeho kamarátom už lezú hore krkom všetky čokoládové vajíčka, ktoré im rozdáva, kazia sa im zuby a bolia ich bruchá a zatúžili po duchovnej potrave - chcú si skrátka prečítať dobrú knihu. Ale zajko veľa kníh nepozná a nevie, aké by ich potešili. Ak mu poradíte, sľubuje, že všetky tie čokoládové dobroty, čo jeho kamaráti nechcú, donesie vám.</p><p><strong>Idete do toho?</strong></p> <p>Môj priateľ medveď &#129528; by si veľmi rád prečítal knihu o&nbsp;niekom, koho ľúbia a dobre sa o neho starajú - ušijú mu šaty, oblečú ho, umyjú, nakŕmia.</p>',
+                    "a": "Môj macík",
+                    "h": "K"
+                },
+                "30.3.2021": {
+                    "q": "<p>Kamarátky žabky 🐸 majú radi básničky. Hlavne nech ich je veľa a nech sú aj o nich aj o ďalších malých zvieratkách.</p>",
+                    "a": "Žabiatko",
+                    "h": "Ľ",
+                },
+                "31.3.2021": {
+                    "q": "<p>Dnes hľadáme knižku pre mojich priateľov, čo radi putujú hlbinami.</p>",
+                    "a": "Hlbokomorské rozprávky",
+                    "h": "U",
+                },
+                "1.4.2021": {
+                    "q": "<p>Táto knižka je pre všetkých, ktorý radi papajú zdravé veci. Na posedenie zjedia aj 1 jablko &#127822;, 2 hrušky &#127824;, 3 slivky, 4 jahody &#127827; a 5 pomarančov.</p>",
+                    "a": "Nenásytná húsenička",
+                    "h": "Č",
+                },
+                "2.4.2021": {
+                    "q": "<p>Dnešná knižka je pre tých, ktorí túžia po nezvyčajnom živote aj nezvyčajnom kamarátovi - zvieratku. Napríklad po bodkovanom koňovi 🐎 alebo trebárs opici &#128018;.</p>",
+                    "a": "Pipi dlhá pančucha",
+                    "h": "K",
+                },
+                "3.4.2021": {
+                    "q": "<p>Táto knižka je zasa pre všetkých, čo túžia po dokonalom kamarátovi. Ale nesmie byť príliš strašidelný ani priveľmi nezbedný! A už vôbec nie mrzutý. </p>",
+                    "a": "Milá Zoo",
+                    "h": "E",
+                },
+                "4.4.2021": {
+                    "q": "<p>Mám dvoch malinkých kamarátov, ktorí vlastne nevedia, akú chcú knižku, ale stále niečo motajú o tom, že chcú byť spolu.</p>",
+                    "a": "Marta a Jonatán",
+                    "h": "N",
+                },
+                "5.4.2021": {
+                    "q": "<p>Posledná knižka je pre všetkých, ktorí potrebujú oblievačku nie len na Veľkonočný pondelok, ale každý deň. Každý deň sa totiž vedia zamazať od hlavy po päty a spotrebujú veľa vody aj čistiacich prostriedkov.</p>",
+                    "a": "Špinuška",
+                    "h": "A",
+                },
+                "_default": {
+                    "q": "<p>Dnes tu nič nie je. Skúsiš to zajtra?</p>",
+                    "a": "ano",
+                    "h": "Tak sa vidíme zajtra.",
+                }
+            };
+
+            const colors = ['yellow', 'red', 'blue', 'indigo', 'purple', 'pink'];
+            const rotates = ['rotate-2', 'rotate-3', 'rotate-6', '-rotate-2', '-rotate-3', '-rotate-6'];
+
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            let rotate = rotates[Math.floor(Math.random() * rotates.length)];
+            document.getElementById('question-container').classList.add(rotate);
+            document.getElementById('question-container').classList.add(`bg-${color}-100`);
+            document.getElementById('answer').classList.add(`border-${color}-400`);
+
+            rotate = rotates[Math.floor(Math.random() * rotates.length)];
+            document.getElementById('hint-container').classList.add(rotate);
+
+            const today = new Date();
+            const day = today.getUTCDate() + '.' + (today.getUTCMonth() + 1) + "." + today.getUTCFullYear();
+
+            const question = questions[day] || questions['_default'];
+
+            document.getElementById('day').innerHTML = day;
+            document.getElementById('question').innerHTML = question['q'];
+            document.getElementById('answer').focus();
+            document.getElementById('hint').innerHTML = question['h'];
+
+            document.getElementById('answer').addEventListener("keyup", (event) => {
+                if (kidsStringCompare(event.target.value, question['a'])) {
+                    document.getElementById('question-container').style.display = 'none';
+                    document.getElementById('hint-container').style.display = 'block';
+                }
+            });
+        });
+    </script>
+    <title>Šifrovačka</title>
+</head>
+
+<body class="bg-grey-lighter h-screen font-sans">
+<div class="container p-8 mx-auto h-full flex justify-center items-center">
+    <div class="lg:w-1/2 w-full">
+        <div id="question-container" class="p-10 bg-yellow-100 rounded-3xl shadow-2xl transform">
+            <div>
+                <h1 id="day" class="text-5xl mb-10 text-center font-bold"></h1>
+                <div id="question" class="text-2xl mb-8 text-center"></div>
+                <input type="text" id="answer"
+                       class="w-full bg-white px-4 py-4 border-yellow-400 border-8 rounded-full text-center text-6xl focus:outline-none"
+                       maxlength="25">
+            </div>
+        </div>
+
+        <div id="hint-container" style="display: none"
+             class="p-10 bg-green-100 rounded-3xl shadow-2xl transform rotate-3">
+            <div>
+                <h1 class="mb-8 text-8xl text-center font-bold">&#128077;</h1>
+                <div id="hint" class="text-2xl text-center text-8xl font-bold"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
